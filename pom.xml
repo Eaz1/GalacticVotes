@@ -1,0 +1,109 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>me.eaz</groupId>
+    <artifactId>GalacticVotes</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>GalacticVotes</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+    <repositories>
+
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+
+        <repository>
+            <id>placeholderapi</id>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
+
+        <repository>
+            <id>codemc-repo</id>
+            <url>https://repo.codemc.io/repository/maven-public/</url>
+        </repository>
+
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+
+    </repositories>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.12.2-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.11.6</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Provides com.vexsoftware.votifier.model.VotifierEvent -->
+        <dependency>
+            <groupId>com.github.NuVotifier.NuVotifier</groupId>
+            <artifactId>NuVotifier-Bukkit</artifactId>
+            <version>v2.7.5</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--
+            GalacticVotes calls GalacticBosses' BossManager API directly
+            (no reflection) when the vote party threshold is reached, so it
+            needs GalacticBosses on the compile classpath. Build order:
+
+                cd GalacticBosses && mvn clean install
+                cd ../GalacticVotes && mvn clean install
+
+            "mvn install" on GalacticBosses puts its jar in your local
+            ~/.m2 repository so this "provided" dependency resolves. It is
+            "provided" (not shaded) because GalacticBosses is a separate
+            plugin jar that must already be on the server at runtime.
+        -->
+        <dependency>
+            <groupId>me.eaz</groupId>
+            <artifactId>GalacticBosses</artifactId>
+            <version>1.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+        </plugins>
+
+    </build>
+
+</project>
