@@ -79,11 +79,11 @@
             plugin jar that must already be on the server at runtime.
         -->
         <dependency>
-            <groupId>me.eaz</groupId>
-            <artifactId>GalacticBosses</artifactId>
-            <version>1.0.0</version>
-            <scope>provided</scope>
-        </dependency>
+    <groupId>com.vexsoftware</groupId>
+    <artifactId>votifier</artifactId>
+    <version>1.9</version>
+    <scope>provided</scope>
+</dependency>
 
     </dependencies>
 
