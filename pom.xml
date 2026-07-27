@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>me.eaz</groupId>
+    <artifactId>GalacticVotes</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>GalacticVotes</name>
+    <description>A complete voting plugin for Spigot 1.12.2 with NuVotifier support and a vote-party feature that can spawn GalacticBosses' boss (via reflection - no compile-time dependency on GalacticBosses).</description>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <repositories>
+        <!-- Spigot API -->
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+        <!-- NuVotifier via JitPack -->
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+        <!-- PlaceholderAPI -->
+        <repository>
+            <id>placeholderapi</id>
+            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- Spigot API 1.12.2 -->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.12.2-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- NuVotifier (provided by server) -->
+        <dependency>
+            <groupId>com.github.NuVotifier</groupId>
+            <artifactId>NuVotifier</artifactId>
+            <version>2.7.3</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- PlaceholderAPI (soft-depend, provided) -->
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.10.9</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--
+            NOTE: there is intentionally NO dependency on GalacticBosses here.
+
+            VotePartyManager talks to GalacticBosses purely through
+            Bukkit.getPluginManager().getPlugin("GalacticBosses") plus Java
+            reflection (Method.invoke), so this project has zero compile-time
+            coupling to GalacticBosses. It builds standalone - in GitHub
+            Actions, in a plain "mvn clean package", anywhere - whether or
+            not GalacticBosses exists anywhere on the classpath. At runtime,
+            if the GalacticBosses plugin isn't installed on the server, the
+            vote party still tracks progress but simply skips spawning a
+            boss and logs a warning instead of crashing.
+        -->
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <minimizeJar>false</minimizeJar>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
