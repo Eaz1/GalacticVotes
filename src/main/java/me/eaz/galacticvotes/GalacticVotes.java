@@ -1,4 +1,6 @@
-package me.eaz.galacticvotes;
+aa
+    A
+    package me.eaz.galacticvotes;
 
 import me.eaz.galacticvotes.commands.GalacticVotesCommand;
 import me.eaz.galacticvotes.commands.VoteCommand;
