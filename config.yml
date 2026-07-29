@@ -1,0 +1,116 @@
+# =============================================
+# GalacticVotes Configuration
+# =============================================
+
+# Vote links shown in /vote
+vote-links:
+  - "https://topeaglerservers.com/server/ef5afead/GalacticPVP"
+  - "https://minecraft-server-list.com/server/12345/vote/"
+
+# Commands executed when a player votes.
+# Use %player% as a placeholder for the player's name.
+vote-rewards:
+  - "eco give %player% 3000"
+  - "cc give physical Galactic 1 %player%"
+
+# Message sent to the player when they vote (online).
+vote-message: "&6&lGalacticPVP &8» &eThank you for voting, &6%player%&e! You received your rewards."
+
+# Broadcast sent to all players when someone votes.
+vote-broadcast: "&6&lGalacticPVP &8» &e%player% &6just voted! &eType &6/vote &eto vote yourself!"
+
+# Whether to broadcast a message to all players on vote.
+broadcast-enabled: true
+
+# Vote milestones: when a player reaches X lifetime votes, run commands and optionally broadcast.
+# Use %player% as a placeholder.
+vote-milestones:
+  30:
+    commands:
+      - "lp user %player% parent add voter"
+    broadcast: "&6%player% &ehas reached &630 &etotal votes and unlocked the &6Voter &erank!"
+  50:
+    commands:
+      - "crate give Legendary %player% 1"
+    broadcast: "&6%player% &ehas reached &650 &etotal votes!"
+  100:
+    commands:
+      - "lp user %player% parent add elite"
+      - "crate give Legendary %player% 3"
+    broadcast: "&6%player% &ehas reached &6100 &etotal votes and unlocked the &6Elite &erank!"
+
+# =============================================
+# Vote Party -> GalacticBosses integration
+# =============================================
+# GalacticVotes is the ONLY plugin that tracks votes. Every processed
+# vote (online or offline) counts towards this server-wide vote party.
+# Once "votes-required" is reached, GalacticVotes calls directly into
+# GalacticBosses' BossManager to spawn its boss (no custom event system,
+# no listener inside GalacticBosses). The boss's spawn location and the
+# spawn broadcast message still live in GalacticBosses' own config.yml
+# under boss.spawn and messages.boss-spawn.
+vote-party:
+  enabled: true
+  votes-required: 20
+  # Broadcast progress towards the vote party after every vote that
+  # doesn't reach the threshold.
+  broadcast-progress: true
+  progress-message: "&d&lVote Party &8» &e%current%&7/&e%required% &evotes until the &5Galactic Wither &espawns!"
+  # Commands executed for every online player once the vote party goal
+  # is reached (in addition to GalacticBosses spawning its boss).
+  # Use %player% as a placeholder. Leave empty to disable.
+  rewards:
+    - "eco give %player% 5000"
+    - "crate give Legendary %player% 1"
+  # Broadcast sent once when vote party rewards are handed out. Leave
+  # empty ("") to disable.
+  reward-broadcast: "&d&lVote Party &8» &eThe vote party goal was reached! Everyone online received bonus rewards!"
+
+# =============================================
+# Monthly Top Voter Rewards
+# =============================================
+
+# How many top voters to display in /votetop and /votemonth
+leaderboard-size: 10
+
+# Rewards for top monthly voters at month end.
+# Commands executed with %player% replaced by the winner's name.
+monthly-top-rewards:
+  1:
+    commands:
+      - "eco give %player% 50000"
+      - "lp user %player% parent add mvp"
+      - "crate give Legendary %player% 5"
+    broadcast: "&6&l[Month End] &6%player% &ewon &61st place &ewith &6%votes% &evotes this month!"
+  2:
+    commands:
+      - "eco give %player% 25000"
+      - "crate give Legendary %player% 3"
+    broadcast: "&6&l[Month End] &6%player% &ewon &62nd place &ewith &6%votes% &evotes this month!"
+  3:
+    commands:
+      - "eco give %player% 10000"
+      - "crate give Legendary %player% 1"
+    broadcast: "&6&l[Month End] &6%player% &ewon &63rd place &ewith &6%votes% &evotes this month!"
+
+# =============================================
+# Messages
+# =============================================
+
+messages:
+  no-permission: "&cYou do not have permission to use this command."
+  player-not-found: "&cPlayer &6%player% &cwas not found."
+  reload-success: "&aGalacticVotes configuration reloaded."
+  month-reset-success: "&aMonthly votes have been reset."
+  votes-self: "&eYour lifetime votes: &6%votes%"
+  votes-other: "&6%player%'s &elifetime votes: &6%votes%"
+  votes-set: "&aSet &6%player%'s &alifetime votes to &6%votes%&a."
+  votes-added: "&aAdded &6%amount% &avotes to &6%player%&a."
+  votes-removed: "&aRemoved &6%amount% &avotes from &6%player%&a."
+  vote-header: "&6&m---&r &6&lVote Links &6&m---"
+  vote-footer: "&6&m---&r &eClick a link above to vote! &6&m---"
+  votetop-header: "&6&m---&r &6&lTop Voters &6&m---"
+  votemonth-header: "&6&m---&r &6&lTop Monthly Voters &6&m---"
+  leaderboard-entry: "&6#%rank% &e%player%: &6%votes% &evotes"
+  leaderboard-empty: "&eThere are no votes recorded yet."
+  queued-rewards-given: "&eWelcome back! You have &6%count% &evote reward(s) waiting for you."
